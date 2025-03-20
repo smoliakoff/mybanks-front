@@ -1,0 +1,78 @@
+openapi: 3.0.0
+info:
+  title: Bank Directory API
+  version: 1.0.0
+paths:
+  /banks:
+    get:
+      summary: Получить список банков
+      responses:
+        "200":
+          description: Список банков
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Bank"
+  /banks/{id}:
+    get:
+      summary: Получить банк по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Данные о банке
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Bank"
+
+components:
+  schemas:
+    Bank:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        country:
+          type: string
+        website:
+          type: string
+        logoUrl:
+          type: string
+        currencyRates:
+          type: array
+          items:
+            $ref: "#/components/schemas/CurrencyRate"
+        offers:
+          type: array
+          items:
+            $ref: "#/components/schemas/Offer"
+        updatedAt:
+          type: string
+          format: date-time
+
+    CurrencyRate:
+      type: object
+      properties:
+        currency:
+          type: string
+        rate:
+          type: number
+
+    Offer:
+      type: object
+      properties:
+        type:
+          type: string
+        description:
+          type: string
+        link:
+          type: string
