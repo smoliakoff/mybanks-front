@@ -1,4 +1,16 @@
 {
   // https://nuxt.com/docs/guide/concepts/typescript
-  "extends": "./.nuxt/tsconfig.json"
+  "extends": "./.nuxt/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"],
+      "@/api": ["./api"],
+      "@/api/*": ["./api/*"],
+      "~/*": ["./*"],
+      "~/api": ["./api"],
+      "~/api/*": ["./api/*"]
+    }
+  },
+  "exclude": ["node_modules", ".nuxt", "dist"]
 }

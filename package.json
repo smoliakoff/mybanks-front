@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev",
+    "dev": "concurrently \"nuxt dev\" \"npm run mock\"",
+    "mock": "cd mock-server && npm start",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
@@ -21,11 +22,18 @@
     "@pinia/nuxt": "^0.10.1",
     "@unhead/vue": "^2.0.0-rc.8",
     "eslint": "^9.0.0",
+    "global": "^4.4.0",
+    "nuxi": "^3.23.1",
     "nuxt": "^3.16.1",
     "pinia": "^3.0.1",
     "typescript": "^5.6.3",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"
   },
-  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
+  "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.18.4",
+    "concurrently": "7.6.0",
+    "vue-tsc": "^2.2.8"
+  }
 }
