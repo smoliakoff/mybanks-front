@@ -2,14 +2,14 @@
   <div v-if="loading">Загрузка...</div>
   <div v-else-if="error" class="error">{{ error }}</div>
   <div v-else-if="bank" class="bank-details">
-    <img :src="bank.logoUrl" alt="Логотип" class="logo" />
+    <img :src="bank.logo_url" alt="Логотип" class="logo" />
     <h1>{{ bank.name }}</h1>
     <p>Страна: {{ bank.country }}</p>
     <p><a :href="bank.website" target="_blank" class="link">Официальный сайт</a></p>
 
     <h3>Курсы валют:</h3>
     <ul>
-      <li v-for="rate in bank.currencyRates" :key="rate.currency">
+      <li v-for="rate in bank.currency_rates" :key="rate.currency">
         {{ rate.currency }}: {{ rate.rate }}
       </li>
     </ul>
@@ -21,7 +21,7 @@
       </li>
     </ul>
 
-    <NuxtLink to="/banks" class="back">← Назад к списку</NuxtLink>
+    <NuxtLink to="/banks" class="back">← Назад к списку 21111</NuxtLink>
   </div>
 </template>
 
@@ -29,7 +29,7 @@
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import api from "@/api/clients";
-import type { Bank } from "@/api/api";
+import type { Bank } from "@/api/models";
 
 const route = useRoute();
 const bank = ref<Bank | null>(null);

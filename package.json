@@ -4,8 +4,9 @@
   "type": "module",
   "scripts": {
     "build": "nuxt build",
-    "dev": "concurrently \"nuxt dev\" \"npm run mock\"",
-    "mock": "cd mock-server && npm start",
+    "odev": "nuxt dev",
+    "dev": "concurrently \"nuxt dev\" \"make mock\"",
+    "mock": "make mock",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
@@ -33,7 +34,18 @@
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
   "devDependencies": {
     "@openapitools/openapi-generator-cli": "^2.18.4",
-    "concurrently": "7.6.0",
-    "vue-tsc": "^2.2.8"
+    "@stoplight/prism-cli": "^5.12.0",
+    "cliui": "7.0.4",
+    "concurrently": "^9.1.2",
+    "prettier": "^3.5.3",
+    "string-width": "4.2.3",
+    "tsx": "^4.19.3",
+    "vue-tsc": "^2.2.8",
+    "wrap-ansi": "7.0.0",
+    "yargs": "17.7.2"
+  },
+  "resolutions": {
+    "cliui": "^7.0.4",
+    "strip-ansi": "^6.0.1"
   }
 }

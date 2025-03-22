@@ -1,22 +1,36 @@
 import { ref, onMounted } from "vue";
-import api from "~/api/clients";
-import type { Bank } from "~/api/api";
+import { BankApi } from "@/api/api";
+import type { BankRead } from "@/api/models";
+
+const api = new BankApi();
 
 export function useBanks() {
-  const banks = ref<Bank[]>([]);
-  const loading = ref(true);
-  const error = ref<string | null>(null);
+  const banks = ref<BankRead[]>([]);
+  const isLoading = ref(false);
+  const error = ref<unknown>(null);
 
-  onMounted(async () => {
+
+  const load = async () => {
+    isLoading.value = true;
+    error.value = null;
+
     try {
-      const response = await api.get<Bank[]>("/banks");
-      banks.value = response.data;
+      const { data } = await api.listBank(); // ← имя метода зависит от operationId
+      banks.value = data;
     } catch (err) {
-      error.value = "Ошибка загрузки банков";
+      error.value = err;
+      console.error("Ошибка при загрузке банков:", err);
     } finally {
-      loading.value = false;
+      isLoading.value = false;
     }
-  });
+  };
 
-  return { banks, loading, error };
+  onMounted(load);
+
+  return {
+    banks,
+    isLoading,
+    error,
+    reload: load,
+  };
 }

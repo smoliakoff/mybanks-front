@@ -1,5 +1,21 @@
 # Nuxt Minimal Starter
 
+
+### Build api client
+Copy openapi.yaml from backend
+```bash
+make copy-openapi
+```
+## To enable mock server remove /api/v1 in openapi.yaml
+Next generate openapi client and TS types
+```bash
+make generate-api
+```
+#### To start mock server
+```bash
+make mock
+```
+
 Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
 ## Setup
