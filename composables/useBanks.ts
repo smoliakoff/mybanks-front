@@ -1,36 +1,18 @@
-import { ref, onMounted } from "vue";
-import { BankApi } from "@/api/api";
-import type { BankRead } from "@/api/models";
+import {useGetBanksQuery} from "../gql-generated/types";
+import {computed} from "vue";
+const useBanks = function(first: number = 10) {
+  // Вызов сгенерированной функции запроса
+  const {result, loading, error } = useGetBanksQuery()
 
-const api = new BankApi();
+  const banks = computed(() => result.value?.banks?.edges
+    ?.map(e => e?.node!));
 
-export function useBanks() {
-  const banks = ref<BankRead[]>([]);
-  const isLoading = ref(false);
-  const error = ref<unknown>(null);
-
-
-  const load = async () => {
-    isLoading.value = true;
-    error.value = null;
-
-    try {
-      const { data } = await api.listBank(); // ← имя метода зависит от operationId
-      banks.value = data;
-    } catch (err) {
-      error.value = err;
-      console.error("Ошибка при загрузке банков:", err);
-    } finally {
-      isLoading.value = false;
-    }
-  };
-
-  onMounted(load);
-
+  // Возвращаем реактивные переменные
   return {
-    banks,
-    isLoading,
+    banks, // ожидается, что result.value имеет структуру { banks: { edges: [...] } }
+    loading,
     error,
-    reload: load,
-  };
+  }
 }
+
+export default useBanks

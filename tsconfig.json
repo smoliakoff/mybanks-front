@@ -3,8 +3,17 @@
   "extends": "./.nuxt/tsconfig.json",
   "compilerOptions": {
     "baseUrl": ".",
+    "plugins": [
+      {
+        "name": "@0no-co/graphqlsp",
+        "schema": "./gql/schema.graphqls"
+      }
+    ],
+    "verbatimModuleSyntax": false,
     "paths": {
       "@": ["./"],
+//      "@composables": ["./composables"],
+      "~/gql/*": ["./gql/*"],
       "@/*": ["./*"],
       "@/api": ["./api"],
       "@/api/*": ["./api/*"],
@@ -13,5 +22,5 @@
       "~/api/*": ["./api/*"]
     }
   },
-  "exclude": ["node_modules", ".nuxt", "dist"]
+  "exclude": ["node_modules", ".nuxt", "dist", "stubs"]
 }

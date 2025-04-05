@@ -1,0 +1,20 @@
+query GetBank($id: ID!) {
+    bank(id: $id) {
+        id
+        name
+        country
+        logoURL
+        currencyRates {
+            id
+            currency
+            rate
+        }
+        website
+        offers {
+            id
+            description
+            link
+            type
+        }
+    }
+}
