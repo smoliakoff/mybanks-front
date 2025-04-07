@@ -1,4 +1,4 @@
-query GetBanks {
+query GetBanks($locale: String!) {
     banks {
         edges {
             node {
@@ -17,6 +17,10 @@ query GetBanks {
                     description
                     link
                     type
+                }
+                translation(locale: $locale) {
+                    name
+                    description
                 }
             }
         }

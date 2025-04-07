@@ -7,6 +7,7 @@
     <p>Страна: {{ bank.country }}</p>
     <p><a :href="bank.website" target="_blank" class="link">Официальный сайт</a></p>
 
+
     <h3>Курсы валют:</h3>
     <ul>
       <li v-for="rate in bank.currency_rates" :key="rate.currency">
@@ -21,22 +22,16 @@
       </li>
     </ul>
 
-    <NuxtLink to="/banks" class="back">← Назад к списку</NuxtLink>
+    <NuxtLink :to="`/${locale}/banks`" class="back">← Назад к списку</NuxtLink>
   </div>
 </template>
 
-<script>
-import { defineComponent } from 'vue';
+<script setup lang="ts">
+import { useI18n } from '#imports'
 import useBank from '../composables/useBank';
-
-export default defineComponent({
-
-  async setup() {
-    const route = useRoute()
-    const { bank, loading, error } = useBank(route.params.id)
-    return { bank, loading, error};
-  },
-});
+const { locale } = useI18n()
+const route = useRoute()
+const { bank, loading, error } = useBank(route.params.id)
 </script>
 
 <style scoped>

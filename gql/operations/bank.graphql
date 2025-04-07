@@ -1,4 +1,4 @@
-query GetBank($id: ID!) {
+query GetBank($id: ID!, $locale: String!) {
     bank(id: $id) {
         id
         name
@@ -15,6 +15,10 @@ query GetBank($id: ID!) {
             description
             link
             type
+        }
+        translation(locale: $locale) {
+            name
+            description
         }
     }
 }

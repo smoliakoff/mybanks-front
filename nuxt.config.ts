@@ -1,5 +1,6 @@
 import { defineNuxtConfig } from "nuxt/config";
 import { fileURLToPath } from "url";
+import type { ModuleOptions } from '@nuxtjs/i18n'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -30,6 +31,15 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxt/scripts',
     '@nuxt/test-utils',
-    '@nuxt/ui'
-  ]
+    '@nuxt/ui',
+    '@nuxtjs/i18n'
+  ],
+  i18n: <ModuleOptions>{
+    defaultLocale: 'en',
+    locales: [
+      { code: 'en', name: 'English', file: 'en.json' },
+      { code: 'tr', name: 'Turkey', file: 'tr.json'  },
+      { code: 'ge', name: 'Georgia', file: 'ge.json'  }
+    ]
+  }
 })

@@ -1,10 +1,13 @@
 import { ref, reactive, computed } from 'vue';
 import {type Bank, useGetBankQuery} from '../gql-generated/types';
-
+import { useI18n } from '#imports'
 const useBank = function(id: string = '') {
+  const { locale } = useI18n()
+
   // Вызов сгенерированной функции запроса
   const { result, loading, error } = useGetBankQuery({
-    id  // Мы передаем переменную id в запрос
+    id,  // Мы передаем переменную id в запрос,
+    locale: locale.value
   });
   // Для удобства создаем реактивное свойство для банка
   const bank = computed(() =>  {
