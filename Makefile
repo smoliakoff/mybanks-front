@@ -1,33 +1,25 @@
-# Путь до сгенерированного OpenAPI YAML из backend
-BACKEND_OPENAPI=../MyBank-Go-Backend/docs/openapi.generated.yaml
+# MyBanks Frontend (Nuxt) - dev helpers
 
-# Куда скопируем во фронте
-LOCAL_OPENAPI=openapi.yaml
+# Path to schema.graphqls in backend repo
+BACKEND_SCHEMA ?= ../MyBank-Go-Backend/graph/schema.graphqls
 
-# Куда генерируем API-клиент
-TS_API_DIR=api
-MOCK_PORT ?= 3001
+# Where we keep the schema in the frontend repo
+LOCAL_SCHEMA ?= ./gql/schema.graphqls
 
-.PHONY: copy-openapi generate-api
+.PHONY: copy-schema codegen codegen-watch clean-generated
 
-# Шаг 1: копируем актуальный YAML из backend
-copy-openapi:
-	@echo "📥 Copying OpenAPI spec from backend..."
-	cp $(BACKEND_OPENAPI) $(LOCAL_OPENAPI)
-	@echo "✅ Copied to $(LOCAL_OPENAPI)"
+copy-schema:
+	@echo "📥 Copying GraphQL schema from backend..."
+	@cp $(BACKEND_SCHEMA) $(LOCAL_SCHEMA)
+	@echo "✅ Copied to $(LOCAL_SCHEMA)"
 
-# Шаг 2: генерируем TS-клиент
-generate-api: copy-openapi
-	@echo "⚙️  Generating TypeScript API client..."
-	./node_modules/.bin/tsx ./node_modules/.bin/openapi-generator-cli  generate \
-		-i $(LOCAL_OPENAPI) \
-		-g typescript-axios \
-		-o $(TS_API_DIR) \
-		--enable-post-process-file \
-		--additional-properties=supportsES6=true,modelPropertyNaming=original,withSeparateModelsAndApi=true,apiPackage=api,modelPackage=models
-	@echo "✅ TypeScript API client generated in $(TS_API_DIR)"
-mock:
-	@echo "🚀 Starting mockserver"
-	@prism mock openapi.yaml \
-    		--port $(MOCK_PORT) \
-    		--host 127.0.0.1
+codegen:
+	@echo "⚙️  Generating GraphQL TypeScript types & Vue Apollo composables..."
+	@./node_modules/.bin/graphql-codegen --config codegen.ts
+	@echo "✅ Generated in ./gql-generated"
+
+codegen-watch:
+	@./node_modules/.bin/graphql-codegen --config codegen.ts --watch
+
+clean-generated:
+	@rm -rf ./gql-generated

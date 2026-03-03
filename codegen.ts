@@ -1,44 +1,34 @@
-import type {CodegenConfig} from '@graphql-codegen/cli'
+import type { CodegenConfig } from '@graphql-codegen/cli'
 
 const config: CodegenConfig = {
-  schema: 'http://localhost:8080/schema.graphql',
-  documents: [
-    'gql/operations/banks.graphql',
-    'gql/operations/bank.graphql'
-  ],
-  watch: true,
+  // Берём локальную схему (копируем из бэка через make copy-schema)
+  schema: process.env.NUXT_PUBLIC_GRAPHQL_ENDPOINT || 'http://localhost:8080/schema.graphql',
+  documents: ['gql/operations/*.graphql'],
   ignoreNoDocuments: true,
   generates: {
-    './gql-generated/': {
-      preset: 'client',
-      config: {
-        withHooks: true,
-        useTypeImports: true
-      },
-    },
     './gql-generated/types.ts': {
       plugins: [
-        // Генерация типов для схемы
         'typescript',
-        // Генерация типов для операций (запросов, мутаций)
         'typescript-operations',
-        // Генерация функций-композиций для Vue Apollo
         {
           'typescript-vue-apollo': {
-            withCompositionFunctions: true, // включаем генерацию функций-композиций
+            withCompositionFunctions: true,
             documentMode: 'documentNode'
           }
         }
       ],
       config: {
-        enumsAsTypes: false,
-        futureProofEnums: true,
+        // Nuxt 3 / Vue 3 (ключевое!)
+        vueCompositionApiImportFrom: 'vue',
+        vueApolloComposableImportFrom: '@vue/apollo-composable',
+
         skipTypename: true,
-        defaultScalarType: "unknown",
+        defaultScalarType: 'unknown',
         avoidOptionals: true,
-        namingConvention: "keep",
-      },
+        namingConvention: 'keep'
+      }
     }
   }
 }
+
 export default config

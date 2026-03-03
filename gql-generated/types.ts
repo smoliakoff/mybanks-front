@@ -1,7 +1,6 @@
 import { DocumentNode } from 'graphql';
 import * as VueApolloComposable from '@vue/apollo-composable';
-import * as VueCompositionApi from '@vue/composition-api';
-import {OptionsParameter} from "@vue/apollo-composable/dist/useQuery.js";
+import * as VueCompositionApi from 'vue';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -419,7 +418,6 @@ export type PageInfo = {
 };
 
 export type Query = {
-  bank: Maybe<Bank>;
   banks: BankConnection;
   currencyRates: Array<CurrencyRate>;
   /** Fetches an object given its ID. */
@@ -427,11 +425,6 @@ export type Query = {
   /** Lookup nodes by a list of IDs. */
   nodes: Array<Maybe<Node>>;
   offers: Array<Offer>;
-};
-
-
-export type QuerybankArgs = {
-  id: Scalars['ID']['input'];
 };
 
 
@@ -497,13 +490,13 @@ export type UpdateOfferInput = {
   type: InputMaybe<Scalars['String']['input']>;
 };
 
-export type GetBankQueryVariables = Exact<{
+export type BankByIdQueryVariables = Exact<{
   id: Scalars['ID']['input'];
   locale: Scalars['String']['input'];
 }>;
 
 
-export type GetBankQuery = { bank: { id: string, name: string, country: string, logoURL: string | null, website: string | null, currencyRates: Array<{ id: string, currency: string, rate: number }> | null, offers: Array<{ id: string, description: string, link: string, type: string }> | null, translation: { name: string, description: string } | null } | null };
+export type BankByIdQuery = { node: { __typename: 'Bank', id: string, name: string, country: string, website: string | null, logoURL: string | null, currencyRates: Array<{ id: string, currency: string, rate: number }> | null, offers: Array<{ id: string, description: string, link: string, type: string }> | null, translation: { name: string, description: string } | null } | { __typename: 'BankTranslation' } | { __typename: 'CurrencyRate' } | { __typename: 'Offer' } | null };
 
 export type GetBanksQueryVariables = Exact<{
   locale: Scalars['String']['input'];
@@ -513,31 +506,31 @@ export type GetBanksQueryVariables = Exact<{
 export type GetBanksQuery = { banks: { edges: Array<{ node: { id: string, name: string, country: string, logoURL: string | null, website: string | null, currencyRates: Array<{ id: string, currency: string, rate: number }> | null, offers: Array<{ id: string, description: string, link: string, type: string }> | null, translation: { name: string, description: string } | null } | null } | null> | null } };
 
 
-export const GetBankDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetBank"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"locale"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"bank"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"country"}},{"kind":"Field","name":{"kind":"Name","value":"logoURL"}},{"kind":"Field","name":{"kind":"Name","value":"currencyRates"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}},{"kind":"Field","name":{"kind":"Name","value":"rate"}}]}},{"kind":"Field","name":{"kind":"Name","value":"website"}},{"kind":"Field","name":{"kind":"Name","value":"offers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"link"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}},{"kind":"Field","name":{"kind":"Name","value":"translation"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"locale"},"value":{"kind":"Variable","name":{"kind":"Name","value":"locale"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}}]}}]}}]} as unknown as DocumentNode;
+export const BankByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"BankById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"locale"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Bank"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"country"}},{"kind":"Field","name":{"kind":"Name","value":"website"}},{"kind":"Field","name":{"kind":"Name","value":"logoURL"}},{"kind":"Field","name":{"kind":"Name","value":"currencyRates"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}},{"kind":"Field","name":{"kind":"Name","value":"rate"}}]}},{"kind":"Field","name":{"kind":"Name","value":"offers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"link"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}},{"kind":"Field","name":{"kind":"Name","value":"translation"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"locale"},"value":{"kind":"Variable","name":{"kind":"Name","value":"locale"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}}]}}]}}]}}]} as unknown as DocumentNode;
 
 /**
- * __useGetBankQuery__
+ * __useBankByIdQuery__
  *
- * To run a query within a Vue component, call `useGetBankQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetBankQuery` returns an object from Apollo Client that contains result, loading and error properties
+ * To run a query within a Vue component, call `useBankByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBankByIdQuery` returns an object from Apollo Client that contains result, loading and error properties
  * you can use to render your UI.
  *
  * @param variables that will be passed into the query
  * @param options that will be passed into the query, supported options are listed on: https://v4.apollo.vuejs.org/guide-composable/query.html#options;
  *
  * @example
- * const { result, loading, error } = useGetBankQuery({
+ * const { result, loading, error } = useBankByIdQuery({
  *   id: // value for 'id'
  *   locale: // value for 'locale'
  * });
  */
-export function useGetBankQuery(variables: GetBankQueryVariables | VueCompositionApi.Ref<GetBankQueryVariables> | ReactiveFunction<GetBankQueryVariables>, options: VueApolloComposable.UseQueryOptions<GetBankQuery, GetBankQueryVariables> | VueCompositionApi.Ref<VueApolloComposable.UseQueryOptions<GetBankQuery, GetBankQueryVariables>> | ReactiveFunction<VueApolloComposable.UseQueryOptions<GetBankQuery, GetBankQueryVariables>> = {}) {
-  return VueApolloComposable.useQuery<GetBankQuery, GetBankQueryVariables>(GetBankDocument, variables as GetBankQueryVariables, options as OptionsParameter<GetBankQuery, any>);
+export function useBankByIdQuery(variables: BankByIdQueryVariables | VueCompositionApi.Ref<BankByIdQueryVariables> | ReactiveFunction<BankByIdQueryVariables>, options: VueApolloComposable.UseQueryOptions<BankByIdQuery, BankByIdQueryVariables> | VueCompositionApi.Ref<VueApolloComposable.UseQueryOptions<BankByIdQuery, BankByIdQueryVariables>> | ReactiveFunction<VueApolloComposable.UseQueryOptions<BankByIdQuery, BankByIdQueryVariables>> = {}) {
+  return VueApolloComposable.useQuery<BankByIdQuery, BankByIdQueryVariables>(BankByIdDocument, variables, options);
 }
-export function useGetBankLazyQuery(variables?: GetBankQueryVariables | VueCompositionApi.Ref<GetBankQueryVariables> | ReactiveFunction<GetBankQueryVariables>, options: VueApolloComposable.UseQueryOptions<GetBankQuery, GetBankQueryVariables> | VueCompositionApi.Ref<VueApolloComposable.UseQueryOptions<GetBankQuery, GetBankQueryVariables>> | ReactiveFunction<VueApolloComposable.UseQueryOptions<GetBankQuery, GetBankQueryVariables>> = {}) {
-  return VueApolloComposable.useLazyQuery<GetBankQuery, GetBankQueryVariables>(GetBankDocument, variables as GetBankQueryVariables, options as OptionsParameter<GetBankQuery, any>);
+export function useBankByIdLazyQuery(variables?: BankByIdQueryVariables | VueCompositionApi.Ref<BankByIdQueryVariables> | ReactiveFunction<BankByIdQueryVariables>, options: VueApolloComposable.UseQueryOptions<BankByIdQuery, BankByIdQueryVariables> | VueCompositionApi.Ref<VueApolloComposable.UseQueryOptions<BankByIdQuery, BankByIdQueryVariables>> | ReactiveFunction<VueApolloComposable.UseQueryOptions<BankByIdQuery, BankByIdQueryVariables>> = {}) {
+  return VueApolloComposable.useLazyQuery<BankByIdQuery, BankByIdQueryVariables>(BankByIdDocument, variables, options);
 }
-export type GetBankQueryCompositionFunctionResult = VueApolloComposable.UseQueryReturn<GetBankQuery, GetBankQueryVariables>;
+export type BankByIdQueryCompositionFunctionResult = VueApolloComposable.UseQueryReturn<BankByIdQuery, BankByIdQueryVariables>;
 export const GetBanksDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetBanks"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"locale"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"banks"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"country"}},{"kind":"Field","name":{"kind":"Name","value":"logoURL"}},{"kind":"Field","name":{"kind":"Name","value":"currencyRates"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}},{"kind":"Field","name":{"kind":"Name","value":"rate"}}]}},{"kind":"Field","name":{"kind":"Name","value":"website"}},{"kind":"Field","name":{"kind":"Name","value":"offers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"link"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}},{"kind":"Field","name":{"kind":"Name","value":"translation"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"locale"},"value":{"kind":"Variable","name":{"kind":"Name","value":"locale"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode;
 
 /**
@@ -556,9 +549,9 @@ export const GetBanksDocument = {"kind":"Document","definitions":[{"kind":"Opera
  * });
  */
 export function useGetBanksQuery(variables: GetBanksQueryVariables | VueCompositionApi.Ref<GetBanksQueryVariables> | ReactiveFunction<GetBanksQueryVariables>, options: VueApolloComposable.UseQueryOptions<GetBanksQuery, GetBanksQueryVariables> | VueCompositionApi.Ref<VueApolloComposable.UseQueryOptions<GetBanksQuery, GetBanksQueryVariables>> | ReactiveFunction<VueApolloComposable.UseQueryOptions<GetBanksQuery, GetBanksQueryVariables>> = {}) {
-  return VueApolloComposable.useQuery<GetBanksQuery, GetBanksQueryVariables>(GetBanksDocument, variables as GetBankQueryVariables, options as OptionsParameter<any, any>);
+  return VueApolloComposable.useQuery<GetBanksQuery, GetBanksQueryVariables>(GetBanksDocument, variables, options);
 }
 export function useGetBanksLazyQuery(variables?: GetBanksQueryVariables | VueCompositionApi.Ref<GetBanksQueryVariables> | ReactiveFunction<GetBanksQueryVariables>, options: VueApolloComposable.UseQueryOptions<GetBanksQuery, GetBanksQueryVariables> | VueCompositionApi.Ref<VueApolloComposable.UseQueryOptions<GetBanksQuery, GetBanksQueryVariables>> | ReactiveFunction<VueApolloComposable.UseQueryOptions<GetBanksQuery, GetBanksQueryVariables>> = {}) {
-  return VueApolloComposable.useLazyQuery<GetBanksQuery, GetBanksQueryVariables>(GetBanksDocument, variables as GetBanksQueryVariables, options as OptionsParameter<any, any>);
+  return VueApolloComposable.useLazyQuery<GetBanksQuery, GetBanksQueryVariables>(GetBanksDocument, variables, options);
 }
 export type GetBanksQueryCompositionFunctionResult = VueApolloComposable.UseQueryReturn<GetBanksQuery, GetBanksQueryVariables>;

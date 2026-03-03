@@ -4,10 +4,10 @@
   "type": "module",
   "scripts": {
     "build": "nuxt build",
-    "odev": "nuxt dev",
-    "odevdebug": "nuxt --inspect dev",
-    "dev": "concurrently \"nuxt dev\" \"make mock\"",
-    "mock": "make mock",
+    "codegen": "graphql-codegen --config codegen.ts",
+    "codegen:watch": "graphql-codegen --config codegen.ts --watch",
+    "dev": "nuxt dev",
+    "devdebug": "nuxt --inspect dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"

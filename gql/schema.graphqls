@@ -9,6 +9,7 @@ type Bank implements Node {
   currencyRates: [CurrencyRate!]
   offers: [Offer!]
   translations: [BankTranslation!]
+  translation(locale: String!): BankTranslation
 }
 """
 A connection to a list of items.

@@ -1,24 +1,27 @@
-query GetBank($id: ID!, $locale: String!) {
-    bank(id: $id) {
-        id
-        name
-        country
-        logoURL
-        currencyRates {
+query BankById($id: ID!, $locale: String!) {
+    node(id: $id) {
+        __typename
+        ... on Bank {
             id
-            currency
-            rate
-        }
-        website
-        offers {
-            id
-            description
-            link
-            type
-        }
-        translation(locale: $locale) {
             name
-            description
+            country
+            website
+            logoURL
+            currencyRates {
+                id
+                currency
+                rate
+            }
+            offers {
+                id
+                description
+                link
+                type
+            }
+            translation(locale: $locale) {
+                name
+                description
+            }
         }
     }
 }

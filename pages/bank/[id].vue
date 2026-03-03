@@ -22,14 +22,16 @@
       </li>
     </ul>
 
-    <NuxtLink :to="`/${locale}/banks`" class="back">← Назад к списку</NuxtLink>
+    <NuxtLink :to="localePath(`/banks`)" class="back">← Назад к списку</NuxtLink>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useI18n } from '#imports'
-import useBank from '../composables/useBank';
-const { locale } = useI18n()
+import useBank from '@/composables/useBank';
+
+import { useLocalePath } from '#i18n'
+const localePath = useLocalePath()
+
 const route = useRoute()
 const { bank, loading, error } = useBank(route.params.id)
 </script>

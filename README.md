@@ -1,20 +1,84 @@
-# Nuxt Minimal Starter
+# MyBanks Frontend (Nuxt 3)
 
+Фронтенд работает **через GraphQL**.
 
-### Build api client
-Copy openapi.yaml from backend
+## Требования
+
+* Node.js 18+ (или 20+)
+* Yarn 1.x
+* Запущенный MyBanks backend с GraphQL endpoint (по умолчанию ниже)
+
+## Быстрый старт
+
 ```bash
-make copy-openapi
+yarn
+make copy-schema
+make codegen
+yarn dev
 ```
-## To enable mock server remove /api/v1 in openapi.yaml
-Next generate openapi client and TS types
+
+Откроется: `http://localhost:3000`
+
+## GraphQL endpoint (env)
+
+По умолчанию фронт ждёт GraphQL тут:
+
+* `http://localhost:8080/query`
+
+Переопределить можно переменной окружения:
+
 ```bash
-make generate-api
+export NUXT_PUBLIC_GRAPHQL_ENDPOINT="http://localhost:8080/query"
 ```
-#### To start mock server
+
+## Схема и генерация типов
+
+### 1) Скопировать схему из бэкенда
+
+В репозитории фронта схема хранится в:
+
+* `gql/schema.graphqls`
+
+Команда копирования:
+
 ```bash
-make mock
+make copy-schema
 ```
+
+Если путь до схемы в бэкенде  другой:
+
+```bash
+BACKEND_SCHEMA=../mybanks-backend/graphql/schema.graphqls make copy-schema
+```
+
+### 2) Сгенерировать типы и composables
+
+Операции (запросы/мутации) лежат тут:
+
+* `gql/operations/*.graphql`
+
+Генерация:
+
+```bash
+make codegen
+```
+
+Результат появится тут:
+
+* `gql-generated/types.ts`
+
+Watch-режим:
+
+```bash
+make codegen-watch
+```
+
+## Полезные команды
+
+* `make clean-generated` — удалить `gql-generated/`
+* `yarn dev` — dev server
+* `yarn build` / `yarn preview` — production
+
 
 Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
