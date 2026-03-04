@@ -1,5 +1,5 @@
 import { ref, reactive, computed } from 'vue';
-import {type Bank, useBankByIdQuery} from '../gql-generated/types';
+import {type Bank, useBankByIdQuery} from '~/gql-generated/types';
 import { useI18n } from '#imports'
 const useBank = function(id: string = '') {
   const { locale } = useI18n()

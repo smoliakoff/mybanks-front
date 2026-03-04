@@ -1,12 +1,7 @@
 {
   // https://nuxt.com/docs/guide/concepts/typescript
   "extends": "./.nuxt/tsconfig.json",
-  "types": ["nuxt",
-    "@nuxtjs/i18n"
-  ],
   "compilerOptions": {
-    "types": ["@nuxt/ui"],
-    "baseUrl": ".",
     "plugins": [
       {
         "name": "@0no-co/graphqlsp",
@@ -14,17 +9,5 @@
       }
     ],
     "verbatimModuleSyntax": false,
-    "paths": {
-      "@": ["./"],
-//      "@composables": ["./composables"],
-      "~/gql/*": ["./gql/*"],
-      "@/*": ["./*"],
-      "@/api": ["./api"],
-      "@/api/*": ["./api/*"],
-      "~/*": ["./*"],
-      "~/api": ["./api"],
-      "~/api/*": ["./api/*"]
-    }
-  },
-  "exclude": ["node_modules", ".nuxt", "dist", "stubs"]
+  }
 }

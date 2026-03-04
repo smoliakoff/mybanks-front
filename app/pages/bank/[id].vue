@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import useBank from '@/composables/useBank';
+import useBank from '~/composables/useBank';
 
 import { useLocalePath } from '#i18n'
 const localePath = useLocalePath()

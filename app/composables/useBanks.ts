@@ -1,4 +1,4 @@
-import {useGetBanksQuery} from "../gql-generated/types";
+import {useGetBanksQuery} from "~/gql-generated/types";
 import {computed} from "vue";
 import { useI18n } from '#imports'
 const useBanks = function(first: number = 10) {

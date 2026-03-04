@@ -1,12 +1,8 @@
 import { defineNuxtConfig } from "nuxt/config";
 import { fileURLToPath } from "url";
 import type { ModuleOptions } from '@nuxtjs/i18n'
-import tailwindcss from '@tailwindcss/vite'
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  colorMode: {
-    preference: 'light'
-  },
   compatibilityDate: '2024-11-01',
   runtimeConfig: {
     public: {
@@ -20,18 +16,8 @@ export default defineNuxtConfig({
       enabled: true
     }
   },
-  debug: false,
-
-  alias: {
-    "api": "./api",
-    '~/gql/*': fileURLToPath(new URL('./gql/*', import.meta.url)),
-    "@/api": "./api",
-    "~/api": "./api"
-  },
+  debug: true,
   css: ['~/assets/css/main.css'],
-  ui: {
-    colorMode: true
-  },
   modules: [
     '@nuxt/content',
     '@nuxt/eslint',
@@ -39,13 +25,10 @@ export default defineNuxtConfig({
     '@nuxt/icon',
     '@nuxt/image',
     '@nuxt/scripts',
-    '@nuxt/test-utils',
+    // '@nuxt/test-utils',
     '@nuxt/ui',
     '@nuxtjs/i18n'
   ],
-  vite: {
-    plugins: [tailwindcss()]
-  },
   i18n: <ModuleOptions>{
     defaultLocale: 'en',
     strategy: 'prefix_except_default',
