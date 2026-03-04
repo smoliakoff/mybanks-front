@@ -2,13 +2,23 @@
   <div v-if="loading">Загрузка...</div>
   <div v-else-if="error" class="error">{{ error }}</div>
   <div v-else>
-    <div v-for="bank in banks" :key="bank.id" class="bank-card">
+    <UCard v-for="bank in banks" :key="bank.id" class="bank-card flex flex-col">
       <img :src="bank.logoURL as string" alt="Логотип" class="logo" />
-      <h3>{{ bank.name }}</h3>
-      <p>Страна: {{ bank.country }}</p>
+      <template #header>
+        <div class="font-semibold text-lg">
+          {{ bank.name }}
+        </div>
+      </template>
+      <div class="text-sm text-muted">
+        {{ bank.country }}
+      </div>
       <a :href="bank.website as string" target="_blank" class="link">Перейти на сайт</a>
-      <NuxtLink :to="localePath(`/bank/${bank.id}`)" class="details">Подробнее</NuxtLink>
-    </div>
+      <template #footer>
+        <UButton :to="localePath(`/bank/${bank.id}`)">
+          Подробнее
+        </UButton>
+      </template>
+    </UCard>
   </div>
 </template>
 

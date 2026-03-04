@@ -1,9 +1,12 @@
 import { defineNuxtConfig } from "nuxt/config";
 import { fileURLToPath } from "url";
 import type { ModuleOptions } from '@nuxtjs/i18n'
-
+import tailwindcss from '@tailwindcss/vite'
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  colorMode: {
+    preference: 'light'
+  },
   compatibilityDate: '2024-11-01',
   runtimeConfig: {
     public: {
@@ -25,6 +28,10 @@ export default defineNuxtConfig({
     "@/api": "./api",
     "~/api": "./api"
   },
+  css: ['~/assets/css/main.css'],
+  ui: {
+    colorMode: true
+  },
   modules: [
     '@nuxt/content',
     '@nuxt/eslint',
@@ -36,6 +43,9 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@nuxtjs/i18n'
   ],
+  vite: {
+    plugins: [tailwindcss()]
+  },
   i18n: <ModuleOptions>{
     defaultLocale: 'en',
     strategy: 'prefix_except_default',

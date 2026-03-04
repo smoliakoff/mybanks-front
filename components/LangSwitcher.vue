@@ -5,9 +5,9 @@ const { locales, setLocale } = useI18n()
 
 <template>
   <div>
-    <button v-for="locale in locales" @click="setLocale(locale.code)">
+    <UButton v-for="locale in locales" @click="setLocale(locale.code)" color="neutral">
       {{ locale.name }}
-    </button>
+    </UButton>
     <h1>{{ $t('welcome') }}</h1>
   </div>
 </template>

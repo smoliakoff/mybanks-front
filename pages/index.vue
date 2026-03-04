@@ -5,6 +5,7 @@ import LangSwitcher from "../components/LangSwitcher.vue";
 
 <template>
   <LangSwitcher/>
+  <ColorModeToggle />
   <BankList />
 </template>
 

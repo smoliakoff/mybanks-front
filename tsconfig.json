@@ -5,6 +5,7 @@
     "@nuxtjs/i18n"
   ],
   "compilerOptions": {
+    "types": ["@nuxt/ui"],
     "baseUrl": ".",
     "plugins": [
       {
