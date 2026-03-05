@@ -527,7 +527,25 @@ export type BankByIdQueryVariables = Exact<{
 }>;
 
 
-export type BankByIdQuery = { node: { __typename: 'Bank', id: string, name: string, country: string, website: string | null, logoURL: string | null, currencyRates: Array<{ id: string, currency: string, buy: number | null, sell: number | null, createdAt: unknown }> | null, offers: Array<{ id: string, description: string, link: string, type: string }> | null, translation: { name: string, description: string } | null } | { __typename: 'BankTranslation' } | { __typename: 'CurrencyRate' } | { __typename: 'Offer' } | null };
+export type BankByIdQuery = {
+  node: {
+    __typename: 'Bank',
+    id: string,
+    name: string,
+    country: string,
+    website: string | null,
+    logoURL: string | null,
+    currencyRates: Array<{
+      id: string,
+      currency: string,
+      buy: number | null,
+      sell: number | null,
+      createdAt: unknown
+    }> | null,
+    offers: Array<{ id: string, description: string, link: string, type: string }> | null,
+    translation: { name: string, description: string } | null
+  } | { __typename: 'BankTranslation' } | { __typename: 'CurrencyRate' } | { __typename: 'Offer' } | null
+};
 
 export type GetBanksQueryVariables = Exact<{
   locale: Scalars['String']['input'];

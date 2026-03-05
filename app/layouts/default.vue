@@ -48,7 +48,7 @@ const footerLinks: NavigationMenuItem[] = [
           <UButton
               color="neutral"
               variant="ghost"
-              icon="i-lucide-languages"
+              icon="radix-icons:globe"
               :label="String(locale).toUpperCase()"
           />
         </UDropdownMenu>
