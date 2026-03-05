@@ -14683,6 +14683,7 @@ __metadata:
     "@vue/apollo-composable": "npm:^4.2.2"
     "@vue/compiler-sfc": "npm:^3.5.18"
     "@vue/test-utils": "npm:^2.4.6"
+    "@vueuse/core": "npm:^14.2.1"
     better-sqlite3: "npm:^12.6.2"
     cliui: "npm:7.0.4"
     concurrently: "npm:^9.1.2"

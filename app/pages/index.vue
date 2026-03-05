@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import useBanks from '~/composables/useBanks'
+import { useMediaQuery } from '@vueuse/core'
+
 import type { GetBanksQuery } from '~/gql-generated/types'
 
 type BankNode = NonNullable<
@@ -23,6 +25,7 @@ type Row = {
 }
 
 const localePath = useLocalePath()
+const isMobile = useMediaQuery('(max-width: 639px)')
 
 const selectedCurrency = ref<CurrencyCode>('USD')
 const mode = ref<Mode>('sell') // sell=покупаю валюту у банка → лучший min(sell)
@@ -41,13 +44,24 @@ const tabs = [
 
 const { banks, loading, error, refresh } = useBanks()
 
-const columns = [
-  { id: 'name', accessorKey: 'name', header: 'Bank' },
-  { id: 'buy', accessorKey: 'buy', header: 'Buy' },
-  { id: 'sell', accessorKey: 'sell', header: 'Sell' },
-  { id: 'updatedAt', accessorKey: 'createdAt', header: 'Updated' },
-  { id: 'actions', accessorKey: 'actions', header: '' }
-]
+const columns = computed(() => {
+  if (isMobile.value) {
+    return [
+      { id: 'name', accessorKey: 'name', header: 'Bank' },
+      { id: 'rate', accessorKey: 'rate', header: 'Rate' },
+      { id: 'updatedAt', accessorKey: 'updatedAt', header: 'Updated' },
+      { id: 'actions', accessorKey: 'actions', header: '' }
+    ]
+  }
+
+  return [
+    { id: 'name', accessorKey: 'name', header: 'Bank' },
+    { id: 'buy', accessorKey: 'buy', header: 'Buy' },
+    { id: 'sell', accessorKey: 'sell', header: 'Sell' },
+    { id: 'updatedAt', accessorKey: 'updatedAt', header: 'Updated' },
+    { id: 'actions', accessorKey: 'actions', header: '' }
+  ]
+})
 
 const subtitle = computed(() => {
   return mode.value === 'sell'
@@ -127,17 +141,30 @@ const sortLabel = computed(() => (sortDir.value === 'best' ? 'Best first' : 'Wor
         <p class="text-sm text-muted mt-1">{{ subtitle }}</p>
       </div>
 
-      <div class="flex flex-wrap items-center gap-2">
-        <USelect v-model="selectedCurrency" :items="currencyOptions" class="w-28" />
+      <!-- controls -->
+      <div class="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:justify-end">
+        <!-- row 1 on mobile -->
+        <div class="flex w-full items-center justify-between gap-2 sm:w-auto">
+          <USelect
+              v-model="selectedCurrency"
+              :items="currencyOptions"
+              class="w-24 shrink-0"
+          />
 
-        <!-- Tabs переключатель -->
-        <UTabs
-            v-model="mode"
-            :items="tabs"
-            class="w-[200px]"
-        />
+          <UTabs
+              v-model="mode"
+              :items="tabs"
+              class="w-[200px] shrink-0"
+          />
+        </div>
 
-        <UButton variant="outline" :loading="loading" @click="refresh()">
+        <!-- row 2 on mobile -->
+        <UButton
+            variant="outline"
+            :loading="loading"
+            class="w-full justify-center sm:w-auto"
+            @click="refresh()"
+        >
           Refresh
         </UButton>
       </div>
@@ -150,50 +177,94 @@ const sortLabel = computed(() => (sortDir.value === 'best' ? 'Best first' : 'Wor
           <div v-if="error" class="text-sm text-red-500">Failed to load</div>
         </div>
       </template>
+      <div class="overflow-x-auto">
+        <UTable :data="rows" :columns="columns" :loading="loading" class="min-w-full">
+          <template #name-cell="{ row }">
+            <div class="flex items-center gap-2">
+              <UButton variant="link" :to="localePath(`/bank/${row.original.id}`)">
+                <div class="font-medium">{{ row.original.name }}</div>
+              </UButton>
+              <UBadge class="hidden sm:block" v-if="row.original.isBest" color="success" variant="soft">Best</UBadge>
+            </div>
+            <div class="text-xs text-muted">{{ row.original.country }}</div>
+          </template>
 
-      <UTable :data="rows" :columns="columns" :loading="loading">
-        <template #name-cell="{ row }">
-          <div class="flex items-center gap-2">
-            <UButton variant="link" :to="localePath(`/bank/${row.original.id}`)">
-              <div class="font-medium">{{ row.original.name }}</div>
-            </UButton>
-            <UBadge v-if="row.original.isBest" color="success" variant="soft">Best</UBadge>
-          </div>
-          <div class="text-xs text-muted">{{ row.original.country }}</div>
-        </template>
+          <!-- ✅ Mobile combined "Rate" column -->
+          <template #rate-header>
+            <div class="sm:hidden">Rate</div>
+          </template>
 
-        <template #buy-cell="{ row }">
-          <div class="font-semibold tabular-nums">{{ row.original.buy }}</div>
-        </template>
+          <template #rate-cell="{ row }">
+            <div class="flex flex-col text-sm tabular-nums leading-tight">
 
-        <template #sell-cell="{ row }">
-          <div class="font-semibold tabular-nums">{{ row.original.sell }}</div>
-        </template>
+              <!-- BUY -->
+              <div class="flex justify-between items-center">
+                <span class="text-muted text-xs">Buy</span>
 
-        <template #updatedAt-cell="{ row }">
-          <div class="tabular-nums text-sm text-muted">
-            {{ minutesAgo(row.original.updatedAt) }}
-          </div>
-        </template>
+                <span
+                    class="font-semibold"
+                    :class="{'text-green-600 font-bold': mode === 'buy' && row.original.isBest}"
+                >
+                  {{ row.original.buy }}
+                </span>
+              </div>
 
-        <template #actions-cell="{ row }">
-          <div class="flex justify-end gap-2">
-            <UButton size="sm" variant="soft" :to="localePath(`/bank/${row.original.id}`)">
-              Details
-            </UButton>
+              <!-- SELL -->
+              <div class="flex justify-between items-center">
+                <span class="text-muted text-xs">Sell</span>
 
-            <UButton
-                v-if="row.original.website"
-                size="sm"
-                variant="outline"
-                :to="row.original.website"
-                target="_blank"
-            >
-              Website
-            </UButton>
-          </div>
-        </template>
-      </UTable>
+                <span
+                    class="font-semibold"
+                    :class="{'text-green-600 font-bold': mode === 'sell' && row.original.isBest}"
+                >
+                  {{ row.original.sell }}
+                </span>
+              </div>
+
+            </div>
+          </template>
+
+          <!-- ✅ Desktop buy/sell columns -->
+          <template #buy-header>
+            <div class="hidden sm:block">Buy</div>
+          </template>
+          <template #buy-cell="{ row }">
+            <div class="hidden sm:block font-semibold tabular-nums">{{ row.original.buy }}</div>
+          </template>
+
+          <template #sell-header>
+            <div class="hidden sm:block">Sell</div>
+          </template>
+          <template #sell-cell="{ row }">
+            <div class="hidden sm:block font-semibold tabular-nums">{{ row.original.sell }}</div>
+          </template>
+
+          <template #updatedAt-cell="{ row }">
+            <div class="tabular-nums text-sm text-muted">
+              {{ minutesAgo(row.original.updatedAt) }}
+            </div>
+          </template>
+
+          <template #actions-cell="{ row }">
+            <div class="flex justify-end gap-2 flex-wrap sm:flex-nowrap">
+              <UButton size="sm" variant="soft" class="whitespace-nowrap" :to="localePath(`/bank/${row.original.id}`)">
+                Details
+              </UButton>
+
+              <UButton
+                  v-if="row.original.website"
+                  size="sm"
+                  variant="outline"
+                  class="whitespace-nowrap"
+                  :to="row.original.website"
+                  target="_blank"
+              >
+                Website
+              </UButton>
+            </div>
+          </template>
+        </UTable>
+      </div>
     </UCard>
   </UContainer>
 </template>
