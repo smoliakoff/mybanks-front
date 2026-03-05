@@ -1,8 +1,10 @@
+
 <template>
   <UApp>
     <NuxtLoadingIndicator />
     <NuxtRouteAnnouncer />
-<!--    <NuxtWelcome />-->
-    <NuxtPage />
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
   </UApp>
 </template>

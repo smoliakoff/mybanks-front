@@ -9,7 +9,9 @@ query GetBanks($locale: String!) {
                 currencyRates {
                     id
                     currency
-                    rate
+                    buy
+                    sell
+                    createdAt
                 }
                 website
                 offers {

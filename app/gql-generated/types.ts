@@ -21,6 +21,8 @@ export type Scalars = {
    * https://relay.dev/graphql/connections.htm#sec-Cursor
    */
   Cursor: { input: unknown; output: unknown; }
+  /** The builtin Time type */
+  Time: { input: unknown; output: unknown; }
 };
 
 export type Bank = Node & {
@@ -244,9 +246,11 @@ export type CreateBankInput = {
  */
 export type CreateCurrencyRateInput = {
   bankID: Scalars['ID']['input'];
+  buy: InputMaybe<Scalars['Float']['input']>;
+  createdAt: InputMaybe<Scalars['Time']['input']>;
   /** ISO 4217 currency code */
   currency: Scalars['String']['input'];
-  rate: Scalars['Float']['input'];
+  sell: InputMaybe<Scalars['Float']['input']>;
 };
 
 /**
@@ -262,10 +266,12 @@ export type CreateOfferInput = {
 
 export type CurrencyRate = Node & {
   bank: Bank;
+  buy: Maybe<Scalars['Float']['output']>;
+  createdAt: Scalars['Time']['output'];
   /** ISO 4217 currency code */
   currency: Scalars['String']['output'];
   id: Scalars['ID']['output'];
-  rate: Scalars['Float']['output'];
+  sell: Maybe<Scalars['Float']['output']>;
 };
 
 /**
@@ -274,6 +280,26 @@ export type CurrencyRate = Node & {
  */
 export type CurrencyRateWhereInput = {
   and: InputMaybe<Array<CurrencyRateWhereInput>>;
+  /** buy field predicates */
+  buy: InputMaybe<Scalars['Float']['input']>;
+  buyGT: InputMaybe<Scalars['Float']['input']>;
+  buyGTE: InputMaybe<Scalars['Float']['input']>;
+  buyIn: InputMaybe<Array<Scalars['Float']['input']>>;
+  buyIsNil: InputMaybe<Scalars['Boolean']['input']>;
+  buyLT: InputMaybe<Scalars['Float']['input']>;
+  buyLTE: InputMaybe<Scalars['Float']['input']>;
+  buyNEQ: InputMaybe<Scalars['Float']['input']>;
+  buyNotIn: InputMaybe<Array<Scalars['Float']['input']>>;
+  buyNotNil: InputMaybe<Scalars['Boolean']['input']>;
+  /** created_at field predicates */
+  createdAt: InputMaybe<Scalars['Time']['input']>;
+  createdAtGT: InputMaybe<Scalars['Time']['input']>;
+  createdAtGTE: InputMaybe<Scalars['Time']['input']>;
+  createdAtIn: InputMaybe<Array<Scalars['Time']['input']>>;
+  createdAtLT: InputMaybe<Scalars['Time']['input']>;
+  createdAtLTE: InputMaybe<Scalars['Time']['input']>;
+  createdAtNEQ: InputMaybe<Scalars['Time']['input']>;
+  createdAtNotIn: InputMaybe<Array<Scalars['Time']['input']>>;
   /** currency field predicates */
   currency: InputMaybe<Scalars['String']['input']>;
   currencyContains: InputMaybe<Scalars['String']['input']>;
@@ -302,15 +328,17 @@ export type CurrencyRateWhereInput = {
   idNotIn: InputMaybe<Array<Scalars['ID']['input']>>;
   not: InputMaybe<CurrencyRateWhereInput>;
   or: InputMaybe<Array<CurrencyRateWhereInput>>;
-  /** rate field predicates */
-  rate: InputMaybe<Scalars['Float']['input']>;
-  rateGT: InputMaybe<Scalars['Float']['input']>;
-  rateGTE: InputMaybe<Scalars['Float']['input']>;
-  rateIn: InputMaybe<Array<Scalars['Float']['input']>>;
-  rateLT: InputMaybe<Scalars['Float']['input']>;
-  rateLTE: InputMaybe<Scalars['Float']['input']>;
-  rateNEQ: InputMaybe<Scalars['Float']['input']>;
-  rateNotIn: InputMaybe<Array<Scalars['Float']['input']>>;
+  /** sell field predicates */
+  sell: InputMaybe<Scalars['Float']['input']>;
+  sellGT: InputMaybe<Scalars['Float']['input']>;
+  sellGTE: InputMaybe<Scalars['Float']['input']>;
+  sellIn: InputMaybe<Array<Scalars['Float']['input']>>;
+  sellIsNil: InputMaybe<Scalars['Boolean']['input']>;
+  sellLT: InputMaybe<Scalars['Float']['input']>;
+  sellLTE: InputMaybe<Scalars['Float']['input']>;
+  sellNEQ: InputMaybe<Scalars['Float']['input']>;
+  sellNotIn: InputMaybe<Array<Scalars['Float']['input']>>;
+  sellNotNil: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /**
@@ -474,9 +502,12 @@ export type UpdateBankInput = {
  */
 export type UpdateCurrencyRateInput = {
   bankID: InputMaybe<Scalars['ID']['input']>;
+  buy: InputMaybe<Scalars['Float']['input']>;
+  clearBuy: InputMaybe<Scalars['Boolean']['input']>;
+  clearSell: InputMaybe<Scalars['Boolean']['input']>;
   /** ISO 4217 currency code */
   currency: InputMaybe<Scalars['String']['input']>;
-  rate: InputMaybe<Scalars['Float']['input']>;
+  sell: InputMaybe<Scalars['Float']['input']>;
 };
 
 /**
@@ -496,17 +527,17 @@ export type BankByIdQueryVariables = Exact<{
 }>;
 
 
-export type BankByIdQuery = { node: { __typename: 'Bank', id: string, name: string, country: string, website: string | null, logoURL: string | null, currencyRates: Array<{ id: string, currency: string, rate: number }> | null, offers: Array<{ id: string, description: string, link: string, type: string }> | null, translation: { name: string, description: string } | null } | { __typename: 'BankTranslation' } | { __typename: 'CurrencyRate' } | { __typename: 'Offer' } | null };
+export type BankByIdQuery = { node: { __typename: 'Bank', id: string, name: string, country: string, website: string | null, logoURL: string | null, currencyRates: Array<{ id: string, currency: string, buy: number | null, sell: number | null, createdAt: unknown }> | null, offers: Array<{ id: string, description: string, link: string, type: string }> | null, translation: { name: string, description: string } | null } | { __typename: 'BankTranslation' } | { __typename: 'CurrencyRate' } | { __typename: 'Offer' } | null };
 
 export type GetBanksQueryVariables = Exact<{
   locale: Scalars['String']['input'];
 }>;
 
 
-export type GetBanksQuery = { banks: { edges: Array<{ node: { id: string, name: string, country: string, logoURL: string | null, website: string | null, currencyRates: Array<{ id: string, currency: string, rate: number }> | null, offers: Array<{ id: string, description: string, link: string, type: string }> | null, translation: { name: string, description: string } | null } | null } | null> | null } };
+export type GetBanksQuery = { banks: { edges: Array<{ node: { id: string, name: string, country: string, logoURL: string | null, website: string | null, currencyRates: Array<{ id: string, currency: string, buy: number | null, sell: number | null, createdAt: unknown }> | null, offers: Array<{ id: string, description: string, link: string, type: string }> | null, translation: { name: string, description: string } | null } | null } | null> | null } };
 
 
-export const BankByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"BankById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"locale"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Bank"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"country"}},{"kind":"Field","name":{"kind":"Name","value":"website"}},{"kind":"Field","name":{"kind":"Name","value":"logoURL"}},{"kind":"Field","name":{"kind":"Name","value":"currencyRates"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}},{"kind":"Field","name":{"kind":"Name","value":"rate"}}]}},{"kind":"Field","name":{"kind":"Name","value":"offers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"link"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}},{"kind":"Field","name":{"kind":"Name","value":"translation"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"locale"},"value":{"kind":"Variable","name":{"kind":"Name","value":"locale"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}}]}}]}}]}}]} as unknown as DocumentNode;
+export const BankByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"BankById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"locale"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Bank"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"country"}},{"kind":"Field","name":{"kind":"Name","value":"website"}},{"kind":"Field","name":{"kind":"Name","value":"logoURL"}},{"kind":"Field","name":{"kind":"Name","value":"currencyRates"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}},{"kind":"Field","name":{"kind":"Name","value":"buy"}},{"kind":"Field","name":{"kind":"Name","value":"sell"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}},{"kind":"Field","name":{"kind":"Name","value":"offers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"link"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}},{"kind":"Field","name":{"kind":"Name","value":"translation"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"locale"},"value":{"kind":"Variable","name":{"kind":"Name","value":"locale"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}}]}}]}}]}}]} as unknown as DocumentNode;
 
 /**
  * __useBankByIdQuery__
@@ -531,7 +562,7 @@ export function useBankByIdLazyQuery(variables?: BankByIdQueryVariables | VueCom
   return VueApolloComposable.useLazyQuery<BankByIdQuery, BankByIdQueryVariables>(BankByIdDocument, variables, options);
 }
 export type BankByIdQueryCompositionFunctionResult = VueApolloComposable.UseQueryReturn<BankByIdQuery, BankByIdQueryVariables>;
-export const GetBanksDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetBanks"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"locale"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"banks"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"country"}},{"kind":"Field","name":{"kind":"Name","value":"logoURL"}},{"kind":"Field","name":{"kind":"Name","value":"currencyRates"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}},{"kind":"Field","name":{"kind":"Name","value":"rate"}}]}},{"kind":"Field","name":{"kind":"Name","value":"website"}},{"kind":"Field","name":{"kind":"Name","value":"offers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"link"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}},{"kind":"Field","name":{"kind":"Name","value":"translation"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"locale"},"value":{"kind":"Variable","name":{"kind":"Name","value":"locale"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode;
+export const GetBanksDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetBanks"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"locale"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"banks"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"country"}},{"kind":"Field","name":{"kind":"Name","value":"logoURL"}},{"kind":"Field","name":{"kind":"Name","value":"currencyRates"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}},{"kind":"Field","name":{"kind":"Name","value":"buy"}},{"kind":"Field","name":{"kind":"Name","value":"sell"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}},{"kind":"Field","name":{"kind":"Name","value":"website"}},{"kind":"Field","name":{"kind":"Name","value":"offers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"link"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}},{"kind":"Field","name":{"kind":"Name","value":"translation"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"locale"},"value":{"kind":"Variable","name":{"kind":"Name","value":"locale"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode;
 
 /**
  * __useGetBanksQuery__

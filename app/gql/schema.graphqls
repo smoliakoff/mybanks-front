@@ -255,6 +255,8 @@ input CreateCurrencyRateInput {
   """
   currency: String!
   rate: Float!
+  buy: Float
+  sell: Float
   bankID: ID!
 }
 """
@@ -274,6 +276,8 @@ type CurrencyRate implements Node {
   """
   currency: String!
   rate: Float!
+  buy: Float
+  sell: Float
   bank: Bank!
 }
 """
@@ -322,6 +326,32 @@ input CurrencyRateWhereInput {
   rateGTE: Float
   rateLT: Float
   rateLTE: Float
+  """
+  buy field predicates
+  """
+  buy: Float
+  buyNEQ: Float
+  buyIn: [Float!]
+  buyNotIn: [Float!]
+  buyGT: Float
+  buyGTE: Float
+  buyLT: Float
+  buyLTE: Float
+  buyIsNil: Boolean
+  buyNotNil: Boolean
+  """
+  sell field predicates
+  """
+  sell: Float
+  sellNEQ: Float
+  sellIn: [Float!]
+  sellNotIn: [Float!]
+  sellGT: Float
+  sellGTE: Float
+  sellLT: Float
+  sellLTE: Float
+  sellIsNil: Boolean
+  sellNotNil: Boolean
   """
   bank edge predicates
   """
@@ -537,6 +567,10 @@ input UpdateCurrencyRateInput {
   """
   currency: String
   rate: Float
+  buy: Float
+  clearBuy: Boolean
+  sell: Float
+  clearSell: Boolean
   bankID: ID
 }
 """

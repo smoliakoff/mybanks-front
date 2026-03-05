@@ -1,23 +1,23 @@
-import {useGetBanksQuery} from "~/gql-generated/types";
-import {computed} from "vue";
+import { useGetBanksQuery } from '~/gql-generated/types'
+import { computed, unref } from 'vue'
 import { useI18n } from '#imports'
-const useBanks = function(first: number = 10) {
+
+const useBanks = (first: number = 10) => {
   const { locale } = useI18n()
-  // Вызов сгенерированной функции запроса
-  const {
-    result,
-    loading,
-    error
-  } = useGetBanksQuery({locale: locale.value})
 
-  const banks = computed(() => result.value?.banks?.edges
-    ?.map(e => e?.node!));
+  const { result, loading, error, refetch } = useGetBanksQuery(
+    () => ({ locale: unref(locale) }) // ✅ реактивно
+  )
 
-  // Возвращаем реактивные переменные
+  const banks = computed(() => result.value?.banks?.edges?.map(e => e?.node!).filter(Boolean) ?? [])
+
+  const refresh = () => refetch({ locale: unref(locale) })
+
   return {
-    banks, // ожидается, что result.value имеет структуру { banks: { edges: [...] } }
+    banks,
     loading,
     error,
+    refresh
   }
 }
 

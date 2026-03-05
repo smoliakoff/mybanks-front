@@ -10,7 +10,9 @@ query BankById($id: ID!, $locale: String!) {
             currencyRates {
                 id
                 currency
-                rate
+                buy
+                sell
+                createdAt
             }
             offers {
                 id
