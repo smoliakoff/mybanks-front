@@ -39,7 +39,9 @@ const footerLinks: NavigationMenuItem[] = [
 
 
 <template>
-    <UHeader title="MyBanks" :links="headerLinks">
+  <div class="min-h-dvh flex flex-col">
+
+  <UHeader title="MyBanks" :links="headerLinks">
       <template #right>
         <!-- Locale -->
         <UDropdownMenu :items="localeItems">
@@ -55,11 +57,11 @@ const footerLinks: NavigationMenuItem[] = [
         <UColorModeSwitch />
       </template>
     </UHeader>
-    <UMain>
+    <UMain class="flex-1 min-h-0">
       <slot />
     </UMain>
     <USeparator type="dashed" class="h-px" />
-    <UFooter>
+    <UFooter class="mt-auto">
       <template #left>
         <p class="text-muted text-sm">
           © {{ new Date().getFullYear() }} MyBanks
@@ -79,4 +81,5 @@ const footerLinks: NavigationMenuItem[] = [
         />
       </template>
     </UFooter>
+  </div>
 </template>
