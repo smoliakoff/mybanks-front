@@ -7,6 +7,7 @@ const route = useRoute()
 const localePath = useLocalePath()
 const switchLocalePath = useSwitchLocalePath()
 const { locale, locales } = useI18n()
+const { t } = useI18n()
 
 // color mode
 const colorMode = useColorMode()
@@ -17,7 +18,7 @@ const toggleColor = () => {
 const headerLinks = computed<NavigationMenuItem[]>(() => [
   {
     label: 'Banks',
-    to: localePath('/'),
+    to: localePath('home'),
     icon: 'i-lucide-building-2',
     active: route.path === localePath('/')
   }
@@ -32,9 +33,11 @@ const localeItems = computed(() =>
     }))
 )
 
-const footerLinks: NavigationMenuItem[] = [
-  { label: 'Contact us', to: '/contact', target: '_blank' }
-]
+const footerLinks: ComputedRef<NavigationMenuItem[]> = computed(() =>
+  [
+    // { label: t('common.contactUs'), to: '/contact', target: '_blank' }
+  ]
+)
 </script>
 
 

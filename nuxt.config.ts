@@ -34,8 +34,9 @@ export default defineNuxtConfig({
     strategy: 'prefix_except_default',
     locales: [
       { code: 'en', name: 'English', file: 'en.json' },
-      { code: 'tr', name: 'Turkey', file: 'tr.json'  },
-      { code: 'ge', name: 'Georgia', file: 'ge.json'  }
+      { code: 'ru', name: 'Русский', file: 'ru.json' },
+      { code: 'ge', name: 'ქართული', file: 'ge.json' },
+      { code: 'tr', name: 'Türkçe', file: 'tr.json' }
     ]
   }
 })

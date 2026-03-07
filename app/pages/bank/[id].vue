@@ -7,6 +7,7 @@ const { locale } = useI18n()
 
 const route = useRoute()
 const { bank, loading, error } = useBank(route.params.id)
+const { t } = useI18n()
 
 function hostFromUrl(url?: string | null) {
   if (!url) return null
@@ -32,10 +33,10 @@ const title = computed(() => bank.value?.translation?.name || bank.value?.name |
 const description = computed(() => bank.value?.translation?.description || '')
 
 const ratesColumns = [
-  { id: 'currency', accessorKey: 'currency', header: 'Currency' },
+  { id: 'currency', accessorKey: 'currency', header: () => t('table.currency') },
   { id: 'buy', accessorKey: 'buy', header: 'Buy' },
   { id: 'sell', accessorKey: 'sell', header: 'Sell' },
-  { id: 'createdAt', accessorKey: 'createdAt', header: 'Updated' }
+  { id: 'createdAt', accessorKey: 'createdAt', header: () => t('table.updated') }
 ]
 
 const offersByType = computed(() => {
@@ -52,8 +53,8 @@ const offersByType = computed(() => {
 
 <template>
   <UContainer class="py-8">
-    <div v-if="loading" class="text-sm text-muted">Loading…</div>
-    <div v-else-if="error" class="text-sm text-red-500">Failed to load bank</div>
+    <div v-if="loading" class="text-sm text-muted">{{$t('common.loading')}}</div>
+    <div v-else-if="error" class="text-sm text-red-500">{{$t('common.failed')}}</div>
 
     <div v-else-if="bank" class="space-y-6">
       <!-- Header -->
@@ -69,7 +70,7 @@ const offersByType = computed(() => {
                   class="h-full w-full object-contain p-2"
               />
               <div v-else class="h-full w-full grid place-items-center text-xs text-muted">
-                No logo
+                {{ $t('common.noLogo') }}
               </div>
             </div>
 
@@ -97,7 +98,7 @@ const offersByType = computed(() => {
                 class="w-full justify-center sm:w-auto"
                 :to="localePath(`/banks`)"
             >
-              ← Back
+              {{ $t('common.back') }}
             </UButton>
 
             <UButton
@@ -106,7 +107,7 @@ const offersByType = computed(() => {
                 :to="bank.website"
                 target="_blank"
             >
-              Official website
+              {{ $t('common.officialWebsite')}}
             </UButton>
           </div>
         </div>
@@ -118,7 +119,7 @@ const offersByType = computed(() => {
         <UCard>
           <template #header>
             <div class="flex items-center justify-between">
-              <div class="font-medium">Exchange rates</div>
+              <div class="font-medium">{{$t('pages.bank.ratesTitle')}}</div>
               <div class="text-xs text-muted">Buy / Sell</div>
             </div>
           </template>
@@ -139,13 +140,13 @@ const offersByType = computed(() => {
 
               <template #buy-cell="{ row }">
                 <div class="font-semibold tabular-nums">
-                  {{ row.original.buy ?? '—' }}
+                  {{ row.original.buy?.toFixed(4) ?? '—' }}
                 </div>
               </template>
 
               <template #sell-cell="{ row }">
                 <div class="font-semibold tabular-nums">
-                  {{ row.original.sell ?? '—' }}
+                  {{ row.original.sell?.toFixed(4) ?? '—' }}
                 </div>
               </template>
 
@@ -202,7 +203,7 @@ const offersByType = computed(() => {
                       :to="offer.link"
                       target="_blank"
                   >
-                    Open
+                    {{$t('table.open')}}
                   </UButton>
                 </div>
               </div>

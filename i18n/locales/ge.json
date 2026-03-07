@@ -1,3 +1,52 @@
 {
-  "welcome": "Gamarjoba"
+  "nav": {
+    "banks": "ბანკები"
+  },
+  "common": {
+    "loading": "იტვირთება…",
+    "failed": "ჩატვირთვა ვერ მოხერხდა",
+    "refresh": "განახლება",
+    "back": "← უკან",
+    "details": "დეტალები",
+    "website": "ვებსაიტი",
+    "officialWebsite": "ოფიციალური ვებსაიტი",
+    "contactUs": "დაგვიკავშირდით",
+    "noDescription": "აღწერა არ არის",
+    "noRates": "კურსები ჯერ არ არის",
+    "noOffers": "შეთავაზებები ჯერ არ არის",
+    "noData": "მონაცემები არ არის",
+    "noLogo": "ლოგო არ არის"
+  },
+  "time": {
+    "justNow": "ახლახანს",
+    "minutesAgo": "{count} წთ წინ",
+    "hoursAgo": "{count} სთ წინ"
+  },
+  "pages": {
+    "banks": {
+      "title": "ბანკები",
+      "subtitle": "აირჩიეთ ბანკი და გახსენით დეტალები."
+    },
+    "rates": {
+      "title": "ვალუტის კურსები საქართველოში",
+      "subtitleSell": "თქვენ ყიდულობთ ვალუტას ბანკისგან — რაც უფრო დაბალია SELL, მით უკეთესია.",
+      "subtitleBuy": "თქვენ ყიდით ვალუტას ბანკს — რაც უფრო მაღალია BUY, მით უკეთესია.",
+      "ratesByBank": "{currency} კურსები ბანკების მიხედვით"
+    },
+    "bank": {
+      "ratesTitle": "ვალუტის კურსები",
+      "ratesHint": "Buy / Sell",
+      "offersTitle": "შეთავაზებები",
+      "offersCount": "{count}"
+    }
+  },
+  "table": {
+    "bank": "ბანკი",
+    "rate": "კურსი",
+    "currency": "ვალუტა",
+    "buy": "Buy",
+    "sell": "Sell",
+    "updated": "განახლდა",
+    "open": "გახსნა"
+  }
 }

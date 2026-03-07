@@ -24,6 +24,8 @@ type Row = {
   isBest: boolean
 }
 
+const { t } = useI18n()
+
 const localePath = useLocalePath()
 const isMobile = useMediaQuery('(max-width: 639px)')
 
@@ -47,26 +49,26 @@ const { banks, loading, error, refresh } = useBanks()
 const columns = computed(() => {
   if (isMobile.value) {
     return [
-      { id: 'name', accessorKey: 'name', header: 'Bank' },
+      { id: 'name', accessorKey: 'name', header: () => t('table.bank') },
       { id: 'rate', accessorKey: 'rate', header: 'Rate' },
-      { id: 'updatedAt', accessorKey: 'updatedAt', header: 'Updated' },
+      { id: 'updatedAt', accessorKey: 'updatedAt', header: () => t('table.updated'), class: 'pa-0' },
       { id: 'actions', accessorKey: 'actions', header: '' }
     ]
   }
 
   return [
-    { id: 'name', accessorKey: 'name', header: 'Bank' },
+    { id: 'name', accessorKey: 'name', header: () => t('table.bank') },
     { id: 'buy', accessorKey: 'buy', header: 'Buy' },
     { id: 'sell', accessorKey: 'sell', header: 'Sell' },
-    { id: 'updatedAt', accessorKey: 'updatedAt', header: 'Updated' },
+    { id: 'updatedAt', accessorKey: 'updatedAt', header: () => t('table.updated') },
     { id: 'actions', accessorKey: 'actions', header: '' }
   ]
 })
 
 const subtitle = computed(() => {
   return mode.value === 'sell'
-      ? 'You buy currency from the bank — lower SELL is better.'
-      : 'You sell currency to the bank — higher BUY is better.'
+      ? t('pages.rates.subtitleSell')
+      : t('pages.rates.subtitleBuy')
 })
 
 const rows = computed<Row[]>(() => {
@@ -119,25 +121,31 @@ const rows = computed<Row[]>(() => {
   }))
 })
 
-function minutesAgo(iso: string) {
+function timeAgo(iso: string) {
   const ts = Date.parse(iso)
   if (!Number.isFinite(ts)) return '—'
+
   const diffMs = Date.now() - ts
   const mins = Math.max(0, Math.floor(diffMs / 60000))
-  if (mins < 1) return 'just now'
-  if (mins < 60) return `${mins}m ago`
+
+  if (mins < 1) return t('time.justNow')
+
+  if (mins < 60) {
+    return t('time.minutesAgo', { count: mins })
+  }
+
   const hrs = Math.floor(mins / 60)
-  return `${hrs}h ago`
+
+  return t('time.hoursAgo', { count: hrs })
 }
 
-const sortLabel = computed(() => (sortDir.value === 'best' ? 'Best first' : 'Worst first'))
 </script>
 
 <template>
   <UContainer class="py-8">
-    <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+    <div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
       <div>
-        <h1 class="text-2xl font-semibold">Exchange rates in Georgia</h1>
+        <h1 class="text-2xl font-semibold">{{ $t('pages.rates.title') }}</h1>
         <p class="text-sm text-muted mt-1">{{ subtitle }}</p>
       </div>
 
@@ -165,7 +173,7 @@ const sortLabel = computed(() => (sortDir.value === 'best' ? 'Best first' : 'Wor
             class="w-full justify-center sm:w-auto"
             @click="refresh()"
         >
-          Refresh
+          {{$t('common.refresh')}}
         </UButton>
       </div>
     </div>
@@ -173,12 +181,12 @@ const sortLabel = computed(() => (sortDir.value === 'best' ? 'Best first' : 'Wor
     <UCard class="mt-6">
       <template #header>
         <div class="flex items-center justify-between">
-          <div class="font-medium">{{ selectedCurrency }} rates by bank</div>
-          <div v-if="error" class="text-sm text-red-500">Failed to load</div>
+          <div class="font-medium">{{ $t('pages.rates.ratesByBank', {currency: selectedCurrency}) }}</div>
+          <div v-if="error" class="text-sm text-red-500">{{$t('common.failed')}}</div>
         </div>
       </template>
       <div class="overflow-x-auto">
-        <UTable :data="rows" :columns="columns" :loading="loading" class="min-w-full">
+        <UTable :data="rows" :columns="columns" :loading="loading" class="min-w-full" :empty="$t('common.noData')">
           <template #name-cell="{ row }">
             <div class="flex items-center gap-2">
               <UButton variant="link" :to="localePath(`/bank/${row.original.id}`)">
@@ -191,7 +199,7 @@ const sortLabel = computed(() => (sortDir.value === 'best' ? 'Best first' : 'Wor
 
           <!-- ✅ Mobile combined "Rate" column -->
           <template #rate-header>
-            <div class="sm:hidden">Rate</div>
+            <div class="sm:hidden">{{$t('table.rate')}}</div>
           </template>
 
           <template #rate-cell="{ row }">
@@ -205,7 +213,7 @@ const sortLabel = computed(() => (sortDir.value === 'best' ? 'Best first' : 'Wor
                     class="font-semibold"
                     :class="{'text-green-600 font-bold': mode === 'buy' && row.original.isBest}"
                 >
-                  {{ row.original.buy }}
+                  {{ row.original.buy.toFixed(4) }}
                 </span>
               </div>
 
@@ -217,7 +225,7 @@ const sortLabel = computed(() => (sortDir.value === 'best' ? 'Best first' : 'Wor
                     class="font-semibold"
                     :class="{'text-green-600 font-bold': mode === 'sell' && row.original.isBest}"
                 >
-                  {{ row.original.sell }}
+                  {{ row.original.sell.toFixed(4) }}
                 </span>
               </div>
 
@@ -229,26 +237,28 @@ const sortLabel = computed(() => (sortDir.value === 'best' ? 'Best first' : 'Wor
             <div class="hidden sm:block">Buy</div>
           </template>
           <template #buy-cell="{ row }">
-            <div class="hidden sm:block font-semibold tabular-nums">{{ row.original.buy }}</div>
+            <div class="hidden sm:block font-semibold tabular-nums">{{ row.original.buy.toFixed(4) }}</div>
           </template>
 
           <template #sell-header>
             <div class="hidden sm:block">Sell</div>
           </template>
           <template #sell-cell="{ row }">
-            <div class="hidden sm:block font-semibold tabular-nums">{{ row.original.sell }}</div>
+            <div class="hidden sm:block font-semibold tabular-nums">{{ row.original.sell.toFixed(4) }}</div>
           </template>
 
           <template #updatedAt-cell="{ row }">
             <div class="tabular-nums text-sm text-muted">
-              {{ minutesAgo(row.original.updatedAt) }}
+              <UTooltip :text="new Date(row.original.updatedAt).toLocaleString()">
+                <span>{{ timeAgo(row.original.updatedAt) }}</span>
+              </UTooltip>
             </div>
           </template>
 
           <template #actions-cell="{ row }">
             <div class="flex justify-end gap-2 flex-wrap sm:flex-nowrap">
               <UButton size="sm" variant="soft" class="whitespace-nowrap" :to="localePath(`/bank/${row.original.id}`)">
-                Details
+                {{$t('common.details')}}
               </UButton>
 
               <UButton
@@ -259,7 +269,7 @@ const sortLabel = computed(() => (sortDir.value === 'best' ? 'Best first' : 'Wor
                   :to="row.original.website"
                   target="_blank"
               >
-                Website
+                {{$t('common.website')}}
               </UButton>
             </div>
           </template>

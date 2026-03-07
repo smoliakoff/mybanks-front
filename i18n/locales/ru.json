@@ -1,1 +1,52 @@
-{"welcome": "Привет"}
+{
+  "nav": {
+    "banks": "Банки"
+  },
+  "common": {
+    "loading": "Загрузка…",
+    "failed": "Не удалось загрузить",
+    "refresh": "Обновить",
+    "back": "← Назад",
+    "details": "Подробнее",
+    "website": "Сайт",
+    "officialWebsite": "Официальный сайт",
+    "contactUs": "Связаться с нами",
+    "noDescription": "Нет описания",
+    "noRates": "Пока нет курсов",
+    "noOffers": "Пока нет предложений",
+    "noData": "Нет данных",
+    "noLogo": "Нет логотипа"
+  },
+  "time": {
+    "justNow": "только что",
+    "minutesAgo": "{count} мин назад",
+    "hoursAgo": "{count} ч назад"
+  },
+  "pages": {
+    "banks": {
+      "title": "Банки",
+      "subtitle": "Выберите банк и узнайте больше."
+    },
+    "rates": {
+      "title": "Курсы валют в Грузии",
+      "subtitleSell": "Вы покупаете валюту у банка — чем ниже SELL, тем лучше.",
+      "subtitleBuy": "Вы продаёте валюту банку — чем выше BUY, тем лучше.",
+      "ratesByBank": "Курсы {currency} по банкам"
+    },
+    "bank": {
+      "ratesTitle": "Курсы валют",
+      "ratesHint": "Buy / Sell",
+      "offersTitle": "Предложения",
+      "offersCount": "{count}"
+    }
+  },
+  "table": {
+    "bank": "Банк",
+    "rate": "Курс",
+    "currency": "Валюта",
+    "buy": "Buy",
+    "sell": "Sell",
+    "updated": "Обновлено",
+    "open": "Открыть"
+  }
+}

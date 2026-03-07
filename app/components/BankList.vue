@@ -25,17 +25,13 @@ function displayName(b: any) {
   <UContainer class="py-8">
     <div class="flex items-end justify-between gap-3">
       <div>
-        <h1 class="text-2xl font-semibold">Banks</h1>
-        <p class="text-sm text-muted mt-1">Browse banks and open details.</p>
+        <h1 class="text-2xl font-semibold">{{ $t('pages.banks.title') }}</h1>
+        <p class="text-sm text-muted mt-1">{{ $t('pages.banks.subtitle') }}</p>
       </div>
-
-      <UButton variant="outline" :loading="loading" @click="refresh()">
-        Refresh
-      </UButton>
     </div>
 
-    <div v-if="loading" class="mt-6 text-sm text-muted">Loading…</div>
-    <div v-else-if="error" class="mt-6 text-sm text-red-500">Failed to load</div>
+    <div v-if="loading" class="mt-6 text-sm text-muted">{{ $t('common.loading') }}</div>
+    <div v-else-if="error" class="mt-6 text-sm text-red-500">{{ $t('common.failed') }}</div>
 
     <div v-else class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       <UCard
@@ -54,7 +50,7 @@ function displayName(b: any) {
                   class="h-full w-full object-contain p-2"
               />
               <div v-else class="h-full w-full grid place-items-center text-[10px] text-muted">
-                No logo
+                {{ $t('common.noLogo') }}
               </div>
             </div>
 
@@ -89,7 +85,7 @@ function displayName(b: any) {
                 class="whitespace-nowrap"
                 :to="localePath(`/bank/${bank.id}`)"
             >
-              Details
+              {{ $t('common.details') }}
             </UButton>
 
             <UButton
@@ -100,7 +96,7 @@ function displayName(b: any) {
                 :to="bank.website"
                 target="_blank"
             >
-              Website
+              {{ $t('common.website') }}
             </UButton>
           </div>
         </template>

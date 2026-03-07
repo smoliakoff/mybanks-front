@@ -1,1 +1,52 @@
-{"welcome": "Meraba"}
+{
+  "nav": {
+    "banks": "Bankalar"
+  },
+  "common": {
+    "loading": "Yükleniyor…",
+    "failed": "Yüklenemedi",
+    "refresh": "Yenile",
+    "back": "← Geri",
+    "details": "Detaylar",
+    "website": "Web sitesi",
+    "officialWebsite": "Resmi web sitesi",
+    "contactUs": "Bize ulaşın",
+    "noDescription": "Açıklama yok",
+    "noRates": "Henüz kur yok",
+    "noOffers": "Henüz teklif yok",
+    "noData": "Veri yok",
+    "noLogo": "Logo yok"
+  },
+  "time": {
+    "justNow": "şimdi",
+    "minutesAgo": "{count} dk önce",
+    "hoursAgo": "{count} sa önce"
+  },
+  "pages": {
+    "banks": {
+      "title": "Bankalar",
+      "subtitle": "Bir banka seçin ve detayları açın."
+    },
+    "rates": {
+      "title": "Gürcistan’da döviz kurları",
+      "subtitleSell": "Bankadan döviz alıyorsunuz — SELL ne kadar düşükse o kadar iyi.",
+      "subtitleBuy": "Bankaya döviz satıyorsunuz — BUY ne kadar yüksekse o kadar iyi.",
+      "ratesByBank": "{currency} kurları (bankalara göre)"
+    },
+    "bank": {
+      "ratesTitle": "Döviz kurları",
+      "ratesHint": "Buy / Sell",
+      "offersTitle": "Teklifler",
+      "offersCount": "{count}"
+    }
+  },
+  "table": {
+    "bank": "Banka",
+    "rate": "Kur",
+    "currency": "Para birimi",
+    "buy": "Buy",
+    "sell": "Sell",
+    "updated": "Güncellendi",
+    "open": "Aç"
+  }
+}

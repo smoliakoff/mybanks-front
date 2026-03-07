@@ -246,6 +246,8 @@ export type CreateBankInput = {
  */
 export type CreateCurrencyRateInput = {
   bankID: Scalars['ID']['input'];
+  /** Base currency ISO 4217 (usually GEL) */
+  base: InputMaybe<Scalars['String']['input']>;
   buy: InputMaybe<Scalars['Float']['input']>;
   createdAt: InputMaybe<Scalars['Time']['input']>;
   /** ISO 4217 currency code */
@@ -266,6 +268,8 @@ export type CreateOfferInput = {
 
 export type CurrencyRate = Node & {
   bank: Bank;
+  /** Base currency ISO 4217 (usually GEL) */
+  base: Scalars['String']['output'];
   buy: Maybe<Scalars['Float']['output']>;
   createdAt: Scalars['Time']['output'];
   /** ISO 4217 currency code */
@@ -280,6 +284,20 @@ export type CurrencyRate = Node & {
  */
 export type CurrencyRateWhereInput = {
   and: InputMaybe<Array<CurrencyRateWhereInput>>;
+  /** base field predicates */
+  base: InputMaybe<Scalars['String']['input']>;
+  baseContains: InputMaybe<Scalars['String']['input']>;
+  baseContainsFold: InputMaybe<Scalars['String']['input']>;
+  baseEqualFold: InputMaybe<Scalars['String']['input']>;
+  baseGT: InputMaybe<Scalars['String']['input']>;
+  baseGTE: InputMaybe<Scalars['String']['input']>;
+  baseHasPrefix: InputMaybe<Scalars['String']['input']>;
+  baseHasSuffix: InputMaybe<Scalars['String']['input']>;
+  baseIn: InputMaybe<Array<Scalars['String']['input']>>;
+  baseLT: InputMaybe<Scalars['String']['input']>;
+  baseLTE: InputMaybe<Scalars['String']['input']>;
+  baseNEQ: InputMaybe<Scalars['String']['input']>;
+  baseNotIn: InputMaybe<Array<Scalars['String']['input']>>;
   /** buy field predicates */
   buy: InputMaybe<Scalars['Float']['input']>;
   buyGT: InputMaybe<Scalars['Float']['input']>;
@@ -502,6 +520,8 @@ export type UpdateBankInput = {
  */
 export type UpdateCurrencyRateInput = {
   bankID: InputMaybe<Scalars['ID']['input']>;
+  /** Base currency ISO 4217 (usually GEL) */
+  base: InputMaybe<Scalars['String']['input']>;
   buy: InputMaybe<Scalars['Float']['input']>;
   clearBuy: InputMaybe<Scalars['Boolean']['input']>;
   clearSell: InputMaybe<Scalars['Boolean']['input']>;
@@ -527,25 +547,7 @@ export type BankByIdQueryVariables = Exact<{
 }>;
 
 
-export type BankByIdQuery = {
-  node: {
-    __typename: 'Bank',
-    id: string,
-    name: string,
-    country: string,
-    website: string | null,
-    logoURL: string | null,
-    currencyRates: Array<{
-      id: string,
-      currency: string,
-      buy: number | null,
-      sell: number | null,
-      createdAt: unknown
-    }> | null,
-    offers: Array<{ id: string, description: string, link: string, type: string }> | null,
-    translation: { name: string, description: string } | null
-  } | { __typename: 'BankTranslation' } | { __typename: 'CurrencyRate' } | { __typename: 'Offer' } | null
-};
+export type BankByIdQuery = { node: { __typename: 'Bank', id: string, name: string, country: string, website: string | null, logoURL: string | null, currencyRates: Array<{ id: string, currency: string, buy: number | null, sell: number | null, createdAt: unknown }> | null, offers: Array<{ id: string, description: string, link: string, type: string }> | null, translation: { name: string, description: string } | null } | { __typename: 'BankTranslation' } | { __typename: 'CurrencyRate' } | { __typename: 'Offer' } | null };
 
 export type GetBanksQueryVariables = Exact<{
   locale: Scalars['String']['input'];

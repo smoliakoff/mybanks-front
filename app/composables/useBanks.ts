@@ -6,7 +6,7 @@ const useBanks = (first: number = 10) => {
   const { locale } = useI18n()
 
   const { result, loading, error, refetch } = useGetBanksQuery(
-    () => ({ locale: unref(locale) }) // ✅ реактивно
+    () => ({ locale: unref(locale) })
   )
 
   const banks = computed(() => result.value?.banks?.edges?.map(e => e?.node!).filter(Boolean) ?? [])

@@ -1,3 +1,52 @@
 {
-  "welcome": "Welcome"
+  "nav": {
+    "banks": "Banks"
+  },
+  "common": {
+    "loading": "Loading…",
+    "failed": "Failed to load",
+    "refresh": "Refresh",
+    "back": "← Back",
+    "details": "Details",
+    "website": "Website",
+    "officialWebsite": "Official website",
+    "contactUs": "Contact us",
+    "noDescription": "No description",
+    "noRates": "No rates yet",
+    "noOffers": "No offers yet",
+    "noData": "No Data",
+    "noLogo": "No logo"
+  },
+  "time": {
+    "justNow": "just now",
+    "minutesAgo": "{count}m ago",
+    "hoursAgo": "{count}h ago"
+  },
+  "pages": {
+    "banks": {
+      "title": "Banks",
+      "subtitle": "Browse banks and open details."
+    },
+    "rates": {
+      "title": "Exchange rates in Georgia",
+      "subtitleSell": "You buy currency from the bank — lower SELL is better.",
+      "subtitleBuy": "You sell currency to the bank — higher BUY is better.",
+      "ratesByBank": "{currency} rates by bank"
+    },
+    "bank": {
+      "ratesTitle": "Exchange rates",
+      "ratesHint": "Buy / Sell",
+      "offersTitle": "Offers",
+      "offersCount": "{count}"
+    }
+  },
+  "table": {
+    "bank": "Bank",
+    "rate": "Rate",
+    "currency": "Currency",
+    "buy": "Buy",
+    "sell": "Sell",
+    "updated": "Updated",
+    "open": "Open"
+  }
 }
